@@ -13,18 +13,29 @@ public class PlayerController : MonoBehaviour {
     private float move;
     private bool jump = false;
 
+    private bool isControlsAvailable;
+
     
     private void Update() {
+        if (!m_CharacterController.enabled) {
+            return;
+        }
         Move();
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (!isControlsAvailable) {
+            return;
+        }
         move = context.ReadValue<float>();    
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!isControlsAvailable) {
+            return;
+        }
         jump = true;
     }
 
@@ -43,9 +54,24 @@ public class PlayerController : MonoBehaviour {
         m_CharacterController.Move(direction * delta);
         jump = false;
     }
+
+    public void ChangeControlsAvailable(bool value) {
+        isControlsAvailable = value;
+    }
+
+    public void ChangeControllerEnabled(bool value) {
+        jump = false;
+        move = 0f;
+        m_CharacterController.enabled = value;
+    }
     
     private void OnTriggerEnter(Collider other) {
-        if (GameController.Instance.CurrentLevel.m_LevelEndCollider == other) {
+        if (GameController.Instance.Killbox == other) {
+            //лочим контроллер юнити, иначе будет падать в бесконечность, что не круто
+            ChangeControllerEnabled(false);
+            GameController.Instance.LevelFailed();
+        }
+        else if (GameController.Instance.CurrentLevel.m_LevelEndCollider == other) {
             GameController.Instance.LevelComplete();
         }
     }

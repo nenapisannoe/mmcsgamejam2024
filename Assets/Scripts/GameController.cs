@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
     public GameObject MainMenuScene;
     public GameObject LevelScene;
     public List<LevelController> Levels = new List<LevelController>();
+    public Collider Killbox;
     private int currentLevelIndex = -1;
     [NonSerialized] public LevelController CurrentLevel;
     [Header("UI Dialogs")]
@@ -61,10 +62,6 @@ public class GameController : MonoBehaviour {
     #endregion
 
     #region UI - Dialogs
-    
-    public void ShowEndDialog() {
-        ShowDialog(DefeatDialog);
-    }
 
     private void ShowDialog(MonoBehaviour dialog) {
         HideDialog();
@@ -89,6 +86,8 @@ public class GameController : MonoBehaviour {
         CurrentLevel = Instantiate(Levels[index]);
         CurrentLevel.Init(PlayerController);
         PlayerController.gameObject.SetActive(true);
+        PlayerController.ChangeControlsAvailable(true);
+        PlayerController.ChangeControllerEnabled(true);
         CameraController.AssignTarget(PlayerController.transform);
     }
 
@@ -98,6 +97,8 @@ public class GameController : MonoBehaviour {
             Destroy(CurrentLevel.gameObject);
             CurrentLevel = null;
         }
+        PlayerController.ChangeControlsAvailable(false);
+        PlayerController.ChangeControllerEnabled(false);
         PlayerController.gameObject.SetActive(false);
         CameraController.Reset();
     }
@@ -107,7 +108,13 @@ public class GameController : MonoBehaviour {
     #region Level Logic
 
     public void LevelComplete() {
+        PlayerController.ChangeControlsAvailable(false);
         ShowDialog(VictoryDialog);
+    }
+
+    public void LevelFailed() {
+        PlayerController.ChangeControlsAvailable(false);
+        ShowDialog(DefeatDialog);
     }
 
     #endregion
