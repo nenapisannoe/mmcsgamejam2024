@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 
     private bool isControlsAvailable;
     
-    private ProjectorController currentProjectorController;
+    private LightProjectorController currentLightProjectorController;
 
     void Start ()
     {
@@ -65,8 +65,8 @@ public class PlayerController : MonoBehaviour {
             return;
         }
 
-        if (currentProjectorController != null) {
-            GameController.Instance.ShowProjectorControllerDialog(currentProjectorController.Data);
+        if (currentLightProjectorController != null) {
+            GameController.Instance.ShowProjectorControllerDialog(currentLightProjectorController.Data);
         }
     }
 
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void ChangeControlsAvailable(bool value) {
-        jump = false;
+        canJump = false;
         move = 0f;
         isControlsAvailable = value;
     }
@@ -110,22 +110,22 @@ public class PlayerController : MonoBehaviour {
             GameController.Instance.LevelComplete();
         }
         else if (layer == 12) { //projector control
-            if (currentProjectorController != null) {
+            if (currentLightProjectorController != null) {
                 throw new Exception("Multiple projector controllers is not supported");
             }
-            var projectorControl = other.GetComponent<ProjectorController>();
+            var projectorControl = other.GetComponent<LightProjectorController>();
             projectorControl.PlayerCanInteract(true);
-            currentProjectorController = projectorControl;
+            currentLightProjectorController = projectorControl;
         }
     }
 
     private void OnTriggerExit(Collider other) {
         var layer = other.gameObject.layer;
         if (layer == 12) { //projector control
-            var projectorControl = other.GetComponent<ProjectorController>();
+            var projectorControl = other.GetComponent<LightProjectorController>();
             projectorControl.PlayerCanInteract(false);
-            if (currentProjectorController == projectorControl) {
-                currentProjectorController = null;
+            if (currentLightProjectorController == projectorControl) {
+                currentLightProjectorController = null;
             }
         }
     }

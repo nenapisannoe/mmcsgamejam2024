@@ -1,19 +1,19 @@
-using System;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class LightProjector : MonoBehaviour {
-    
-    public Light SpotLight;
-    public MeshFilter MeshFilter;
 
-    private void Start() {
-        Init();
+    public Light Spotlight;
+
+    private Vector3 baseRotation;
+
+    private void Awake() {
+        baseRotation = Spotlight.transform.localRotation.eulerAngles;
     }
 
-    public void Init() {
-        //var radius = SpotLight.;
-        MeshFilter.mesh = ConeCreator.GetMesh(0.5f);
+    public void SetData(ProjectorControllerData data) {
+        Spotlight.enabled = data.IsEnabled;
+        Spotlight.transform.localRotation = Quaternion.Euler(new Vector3(baseRotation.x, baseRotation.y + data.CurrentAngleDelta, baseRotation.z));
+        Spotlight.color = data.Color;
     }
     
 }

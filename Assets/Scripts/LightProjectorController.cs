@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class ProjectorControllerData {
@@ -28,11 +29,11 @@ public class ProjectorControllerData {
 
 }
 
-public class ProjectorController : MonoBehaviour {
+public class LightProjectorController : MonoBehaviour {
     
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
-    public Projector Projector;
+    [FormerlySerializedAs("Projector")] public LightProjector LightProjector;
     
     private Material rendererMaterial;
 
@@ -48,7 +49,7 @@ public class ProjectorController : MonoBehaviour {
     }
 
     private void OnProjectorDataChanged() {
-        Projector.SetData(Data);
+        LightProjector.SetData(Data);
     }
 
     public void PlayerCanInteract(bool value) {
