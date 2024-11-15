@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour {
     private bool jump = false;
 
     private bool isControlsAvailable;
-
+    
+    private ProjectorController currentProjectorController;
     
     private void Update() {
         if (!m_CharacterController.enabled) {
@@ -39,6 +40,16 @@ public class PlayerController : MonoBehaviour {
         jump = true;
     }
 
+    public void OnInteract(InputAction.CallbackContext context) {
+        if (!isControlsAvailable) {
+            return;
+        }
+
+        if (currentProjectorController != null) {
+            GameController.Instance.ShowProjectorControllerDialog(currentProjectorController.Data);
+        }
+    }
+
     private void Move()
     {
         if (m_CharacterController.isGrounded) {
@@ -56,6 +67,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void ChangeControlsAvailable(bool value) {
+        jump = false;
+        move = 0f;
         isControlsAvailable = value;
     }
 
@@ -66,14 +79,34 @@ public class PlayerController : MonoBehaviour {
     }
     
     private void OnTriggerEnter(Collider other) {
-        if (GameController.Instance.Killbox == other) {
+        var layer = other.gameObject.layer;
+        if (layer == 10) { //killbox
             //лочим контроллер юнити, иначе будет падать в бесконечность, что не круто
             ChangeControllerEnabled(false);
             GameController.Instance.LevelFailed();
         }
-        else if (GameController.Instance.CurrentLevel.m_LevelEndCollider == other) {
+        else if (layer == 11) { //level complete
             GameController.Instance.LevelComplete();
         }
+        else if (layer == 12) { //projector control
+            if (currentProjectorController != null) {
+                throw new Exception("Multiple projector controllers is not supported");
+            }
+            var projectorControl = other.GetComponent<ProjectorController>();
+            projectorControl.PlayerCanInteract(true);
+            currentProjectorController = projectorControl;
+        }
     }
-    
+
+    private void OnTriggerExit(Collider other) {
+        var layer = other.gameObject.layer;
+        if (layer == 12) { //projector control
+            var projectorControl = other.GetComponent<ProjectorController>();
+            projectorControl.PlayerCanInteract(false);
+            if (currentProjectorController == projectorControl) {
+                currentProjectorController = null;
+            }
+        }
+    }
+
 }

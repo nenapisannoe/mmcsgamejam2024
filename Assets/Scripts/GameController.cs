@@ -14,13 +14,13 @@ public class GameController : MonoBehaviour {
     public GameObject MainMenuScene;
     public GameObject LevelScene;
     public List<LevelController> Levels = new List<LevelController>();
-    public Collider Killbox;
     private int currentLevelIndex = -1;
     [NonSerialized] public LevelController CurrentLevel;
     [Header("UI Dialogs")]
     public StartDialog StartDialog;
     public VictoryDialog VictoryDialog;
     public DefeatDialog DefeatDialog;
+    public ProjectorControllerDialog ProjectorControllerDialog;
     
     //пока что разрешаем только 1 диалог одновременно, при открытии нового диалога старый закрывается
     private MonoBehaviour currentDialog;
@@ -63,6 +63,17 @@ public class GameController : MonoBehaviour {
 
     #region UI - Dialogs
 
+    public void ShowProjectorControllerDialog(ProjectorControllerData data) {
+        ProjectorControllerDialog.Init(data);
+        ShowDialog(ProjectorControllerDialog);
+        PlayerController.ChangeControlsAvailable(false);
+    }
+    
+    public void HideProjectorControllerDialog() {
+        HideDialog();
+        PlayerController.ChangeControlsAvailable(true);
+    }
+
     private void ShowDialog(MonoBehaviour dialog) {
         HideDialog();
         currentDialog = dialog;
@@ -83,7 +94,7 @@ public class GameController : MonoBehaviour {
     private void LoadLevel(int index) {
         UnloadLevel();
         currentLevelIndex = index;
-        CurrentLevel = Instantiate(Levels[index]);
+        CurrentLevel = Instantiate(Levels[index], LevelScene.transform);
         CurrentLevel.Init(PlayerController);
         PlayerController.gameObject.SetActive(true);
         PlayerController.ChangeControlsAvailable(true);

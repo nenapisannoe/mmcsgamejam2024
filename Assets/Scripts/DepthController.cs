@@ -8,7 +8,8 @@ public class DepthController : MonoBehaviour {
     public float MainGeometryDepth;
     public float BackgroundGeometryDepth;
     public float MainDepth;
-    public float LightsDepth;
+    public float ProjectorDepth;
+    public float ProjectorControllerDepth;
 
     public float Decor1Depth;
     public float Decor2Depth;
