@@ -5,8 +5,11 @@ public enum BaseGameComponentType {
     Unrestricted,
     MainGeometry,
     BackgroundGeometry,
-    Characters,
+    Main,
     Lights,
+    Decor1,
+    Decor2,
+    Decor3,
 }
 
 [ExecuteInEditMode]
@@ -19,8 +22,11 @@ public class DepthRestriction : MonoBehaviour {
         return m_Type switch {
             BaseGameComponentType.MainGeometry => DepthController.Instance.MainGeometryDepth,
             BaseGameComponentType.BackgroundGeometry => DepthController.Instance.BackgroundGeometryDepth,
-            BaseGameComponentType.Characters => DepthController.Instance.CharactersDepth,
+            BaseGameComponentType.Main => DepthController.Instance.MainDepth,
             BaseGameComponentType.Lights => DepthController.Instance.LightsDepth,
+            BaseGameComponentType.Decor1 => DepthController.Instance.Decor1Depth,
+            BaseGameComponentType.Decor2 => DepthController.Instance.Decor2Depth,
+            BaseGameComponentType.Decor3 => DepthController.Instance.Decor3Depth,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

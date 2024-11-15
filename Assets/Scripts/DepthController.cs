@@ -7,8 +7,12 @@ public class DepthController : MonoBehaviour {
     
     public float MainGeometryDepth;
     public float BackgroundGeometryDepth;
-    public float CharactersDepth;
+    public float MainDepth;
     public float LightsDepth;
+
+    public float Decor1Depth;
+    public float Decor2Depth;
+    public float Decor3Depth;
 
     public static DepthController Instance;
     

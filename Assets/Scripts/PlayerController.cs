@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
@@ -41,6 +42,12 @@ public class PlayerController : MonoBehaviour {
         direction.y -= m_Gravity * delta;
         m_CharacterController.Move(direction * delta);
         jump = false;
+    }
+    
+    private void OnTriggerEnter(Collider other) {
+        if (GameController.Instance.CurrentLevel.m_LevelEndCollider == other) {
+            GameController.Instance.LevelComplete();
+        }
     }
     
 }
