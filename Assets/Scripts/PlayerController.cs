@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
@@ -9,12 +10,17 @@ public class PlayerController : MonoBehaviour {
     public float m_MoveSpeed;
     public float m_Gravity;
     public float m_JumpHeight;
+    [SerializeField] private Animator animator;
     private Vector3 direction;
     private float move;
-    private bool jump = false;
+    private bool canJump = false;
 
     private bool isControlsAvailable;
 
+    void Start ()
+    {
+        transform.forward = new Vector3(1, 0, 0);
+    }
     
     private void Update() {
         if (!m_CharacterController.enabled) {
@@ -29,6 +35,15 @@ public class PlayerController : MonoBehaviour {
             return;
         }
         move = context.ReadValue<float>();    
+
+        if (context.performed && move !=0) {
+            transform.forward = new Vector3(move, 0, 0);
+            animator.SetBool("IsMoving", true);
+        }
+        else if (move == 0)
+        {
+            animator.SetBool("IsMoving", false);
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -36,23 +51,28 @@ public class PlayerController : MonoBehaviour {
         if (!isControlsAvailable) {
             return;
         }
-        jump = true;
+        if (context.performed)
+        {
+            animator.SetBool("IsJumping", true);
+            canJump = true;
+        }
     }
 
     private void Move()
     {
         if (m_CharacterController.isGrounded) {
             direction = new Vector3(move, 0f, 0f) * m_MoveSpeed;
-            if (jump)
-            {
+            if (canJump)
                 direction.y = m_JumpHeight;
-            }
+            else
+                animator.SetBool("IsJumping", false);
         }
 
         var delta = Time.deltaTime;
         direction.y -= m_Gravity * delta;
         m_CharacterController.Move(direction * delta);
-        jump = false;
+
+        canJump = false;
     }
 
     public void ChangeControlsAvailable(bool value) {
@@ -60,7 +80,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void ChangeControllerEnabled(bool value) {
-        jump = false;
+        canJump = false;
         move = 0f;
         m_CharacterController.enabled = value;
     }
