@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -18,6 +19,9 @@ public class DepthController : MonoBehaviour {
     public static DepthController Instance;
     
     private void OnValidate() {
+        if (Instance != null) {
+            throw new Exception("DepthController already exists!");
+        }
         Instance = this;
     }
     

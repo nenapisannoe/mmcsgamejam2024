@@ -78,6 +78,7 @@ MonoBehaviour:
   m_Gravity: 50
   m_JumpHeight: 15
   animator: {fileID: 6724910834830660356}
+  m_AnyCharacterFrameRenderer: {fileID: 152916460643036158}
 --- !u!114 &4807788060095685719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,10 +242,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4248463554291374116}
     m_Modifications:
-    - target: {fileID: 5866666021909216657, guid: e2c8b461db2e0ee4daba580371a6ed54, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 423b010b1c835934b970f755cbae28c0, type: 2}
     - target: {fileID: 128269808553069241, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}
       propertyPath: m_Name
       value: Ninja
@@ -357,11 +354,20 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: e2c8b461db2e0ee4daba580371a6ed54, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 423b010b1c835934b970f755cbae28c0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}
+--- !u!23 &152916460643036158 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6206395557546408383, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}
+  m_PrefabInstance: {fileID: 6070517314337215041}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &6724910834830660356 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 679306405671092549, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}
