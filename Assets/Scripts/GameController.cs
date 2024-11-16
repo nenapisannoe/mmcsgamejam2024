@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
     public static GameController Instance;
+    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
     [Header("Controllers")]
     public CameraController CameraController;
@@ -15,6 +18,7 @@ public class GameController : MonoBehaviour {
     public List<LevelController> Levels = new List<LevelController>();
     private int currentLevelIndex = -1;
     [NonSerialized] public LevelController CurrentLevel;
+    public LineRenderer ShotLine;
     [Header("UI Dialogs")]
     public StartDialog StartDialog;
     public VictoryDialog VictoryDialog;
@@ -126,6 +130,21 @@ public class GameController : MonoBehaviour {
     public void LevelFailed() {
         PlayerController.ChangeControlsAvailable(false);
         ShowDialog(DefeatDialog);
+    }
+
+    public async void ShotCharacter(Transform shotOrigin, Color color) {
+        ShotLine.SetPositions(new [] {
+            shotOrigin.position,
+            PlayerController.GetComponentInChildren<BoxCollider>().transform.position
+        });
+        ShotLine.sharedMaterial.SetColor(BaseColor, color);
+        ShotLine.sharedMaterial.SetColor(EmissionColor, color * 15f);
+        ShotLine.gameObject.SetActive(true);
+        PlayerController.Kill();
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
+        ShotLine.gameObject.SetActive(false);
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        LevelFailed();
     }
 
     #endregion
