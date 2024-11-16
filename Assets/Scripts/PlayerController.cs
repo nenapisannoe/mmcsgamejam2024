@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour {
     
     [SerializeField] private Renderer m_AnyCharacterFrameRenderer;
     private Material m_CharacterPaintSharedMaterial;
+
+    private List<LightProjector> projectorsList = new List<LightProjector>();
 
     void Start () {
         transform.forward = new Vector3(1, 0, 0);
@@ -108,6 +111,15 @@ public class PlayerController : MonoBehaviour {
     public void SetColor(Color color) {
         if (m_CharacterPaintSharedMaterial) {
             m_CharacterPaintSharedMaterial.SetColor(BaseColor, color);
+        }
+    }
+
+    public void ChangeProjector(LightProjector projector, bool value) {
+        if (value) {
+            projectorsList.Add(projector);
+        }
+        else {
+            projectorsList.Remove(projector);
         }
     }
     
