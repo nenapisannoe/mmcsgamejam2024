@@ -135,15 +135,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b70f21258c94b4e985cd63fdb23d662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Projector: {fileID: 0}
+  LightProjector: {fileID: 0}
   Data:
-    IsEnabled: 1
-    PlayerCanModifyEnabled: 1
+    IsEnabled: 0
+    PlayerCanModifyEnabled: 0
     CurrentAngleDelta: 0
-    MinAngleDelta: -30
-    MaxAngleDelta: 30
-    PlayerCanModifyAngle: 1
+    MinAngleDelta: 0
+    MaxAngleDelta: 0
+    PlayerCanModifyAngle: 0
     Color: {r: 1, g: 1, b: 1, a: 1}
-    PlayerCanModifyRed: 1
-    PlayerCanModifyGreen: 1
-    PlayerCanModifyBlue: 1
+    PlayerCanModifyRed: 0
+    PlayerCanModifyGreen: 0
+    PlayerCanModifyBlue: 0

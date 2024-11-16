@@ -10,7 +10,7 @@ public class LightProjector : MonoBehaviour {
         baseRotation = Spotlight.transform.localRotation.eulerAngles;
     }
 
-    public void SetData(ProjectorControllerData data) {
+    public void SetData(LightProjectorControllerData data) {
         Spotlight.enabled = data.IsEnabled;
         Spotlight.transform.localRotation = Quaternion.Euler(new Vector3(baseRotation.x, baseRotation.y + data.CurrentAngleDelta, baseRotation.z));
         Spotlight.color = data.Color;

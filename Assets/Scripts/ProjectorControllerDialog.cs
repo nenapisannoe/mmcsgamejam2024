@@ -18,9 +18,9 @@ public class ProjectorControllerDialog : MonoBehaviour {
     public GameObject BlueContainer;
     public Slider BlueSlider;
 
-    private ProjectorControllerData projectorData;
+    private LightProjectorControllerData projectorData;
 
-    public void Init(ProjectorControllerData data) {
+    public void Init(LightProjectorControllerData data) {
         projectorData = data;
         
         EnabledContainer.SetActive(projectorData.PlayerCanModifyEnabled);

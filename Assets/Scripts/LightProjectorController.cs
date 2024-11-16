@@ -1,9 +1,8 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [Serializable]
-public class ProjectorControllerData {
+public class LightProjectorControllerData {
 
     [Header("Enabled/Disabled")]
     public bool IsEnabled;
@@ -33,11 +32,11 @@ public class LightProjectorController : MonoBehaviour {
     
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
-    [FormerlySerializedAs("Projector")] public LightProjector LightProjector;
+    public LightProjector LightProjector;
     
     private Material rendererMaterial;
 
-    public ProjectorControllerData Data = new ProjectorControllerData();
+    public LightProjectorControllerData Data = new LightProjectorControllerData();
 
     private void Awake() {
         var rendererComponent = GetComponent<Renderer>();
@@ -48,7 +47,10 @@ public class LightProjectorController : MonoBehaviour {
         Data.ProjectorDataChanged += OnProjectorDataChanged;
     }
 
-    private void OnProjectorDataChanged() {
+    public void OnProjectorDataChanged() {
+        if (LightProjector == null) {
+            return;
+        }
         LightProjector.SetData(Data);
     }
 
