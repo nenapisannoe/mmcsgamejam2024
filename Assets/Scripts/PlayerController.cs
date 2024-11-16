@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Kill() {
-        //TODO: trigger death animation
+        animator.SetTrigger("Death");
         ChangeControlsAvailable(false);
     }
     
