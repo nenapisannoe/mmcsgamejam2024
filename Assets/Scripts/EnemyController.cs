@@ -10,6 +10,7 @@ public class EnemyController : LineOfSightObject {
     public float m_Gravity;
     public Color Color = Color.white;
     [SerializeField] private Transform m_SightOrigin;
+    [SerializeField] private Animator enemyAnimator;
     public float PatrolDistanceLeft;
     public float PatrolDistanceRight;
     
@@ -47,6 +48,7 @@ public class EnemyController : LineOfSightObject {
                 else {
                     transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
                     move = -1f;
+                    enemyAnimator.SetBool("IsMoving", true);
                 }
             }
             else {
@@ -57,6 +59,7 @@ public class EnemyController : LineOfSightObject {
                 else {
                     transform.rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
                     move = 1f;
+                    enemyAnimator.SetBool("IsMoving", true);
                 }
             }
         }
@@ -87,6 +90,7 @@ public class EnemyController : LineOfSightObject {
         var isInLineOfSight = IsPointInLineOfSight(target);
         if (isInLineOfSight != isCharacterDetected) {
             isCharacterDetected = isInLineOfSight;
+            enemyAnimator.SetTrigger("ShootTrigger");
             Debug.Log($"Character detected by {this}");
         }
     }
