@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Gravity: 50
   m_JumpHeight: 15
   animator: {fileID: 6724910834830660356}
+  jumpTimeLeniency: 0.1
   m_AnyCharacterFrameRenderer: {fileID: 152916460643036158}
 --- !u!114 &4807788060095685719
 MonoBehaviour:

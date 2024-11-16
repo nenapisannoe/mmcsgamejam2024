@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour {
     public float m_Gravity;
     public float m_JumpHeight;
     [SerializeField] private Animator animator;
+    [SerializeField] private float jumpTimeLeniency = 0.1f;
+    //[SerializeField] private float airFriction = 0.65f;
+    private float timeToStopLeniency;
     private Vector3 direction;
     private float move;
     private bool canJump = false;
@@ -81,12 +84,22 @@ public class PlayerController : MonoBehaviour {
 
     private void Move()
     {
-        if (m_CharacterController.isGrounded) {
+        if (m_CharacterController.isGrounded) 
+        {
+            timeToStopLeniency = Time.time + jumpTimeLeniency;
             direction = new Vector3(move, 0f, 0f) * m_MoveSpeed;
             if (canJump)
                 direction.y = m_JumpHeight;
             else
                 animator.SetBool("IsJumping", false);
+        }
+        else
+        {
+            direction.x = move /** airFriction*/ * m_MoveSpeed;
+            if (canJump && Time.time < timeToStopLeniency)
+                {
+                    direction.y = m_JumpHeight;
+                }
         }
 
         var delta = Time.deltaTime;
