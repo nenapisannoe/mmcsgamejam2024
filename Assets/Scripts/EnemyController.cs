@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class EnemyController : LineOfSightObject {
@@ -10,11 +11,14 @@ public class EnemyController : LineOfSightObject {
     public float m_Gravity;
     public Color Color = Color.white;
     [SerializeField] private Transform m_SightOrigin;
+    [SerializeField] private Transform m_AttackOrigin;
     [SerializeField] private Animator enemyAnimator;
+    [SerializeField] private EnemyAnimationHandler animationHandler;
     public float PatrolDistanceLeft;
     public float PatrolDistanceRight;
     
     private Material rendererMaterial;
+    
     private bool isCharacterDetected;
 
     private float patrolBase;
@@ -22,6 +26,8 @@ public class EnemyController : LineOfSightObject {
     private Vector3 direction;
     private float move;
     private bool patrolToLeft = true;
+
+    private bool attackTriggered;
 
     private void Awake() {
         if (gameObject.layer != 15) {
@@ -35,9 +41,24 @@ public class EnemyController : LineOfSightObject {
         UpdateMaterial();
 
         patrolBase = transform.position.x;
+        
+        animationHandler.OnShotTrigger += AnimationHandlerOnShotTrigger;
+    }
+
+    private async void AnimationHandlerOnShotTrigger() {
+        if (isCharacterDetected) {
+            GameController.Instance.ShotCharacter(m_AttackOrigin, Color);
+        }
+        else {
+            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            attackTriggered = false;
+        }
     }
 
     private void Update() {
+        if (attackTriggered) {
+            return;
+        }
         if (PatrolDistanceLeft != 0f || PatrolDistanceRight != 0f) {
             var currentX = transform.position.x;
             if (patrolToLeft) {
@@ -87,11 +108,13 @@ public class EnemyController : LineOfSightObject {
         var player = GameController.Instance.PlayerController;
         var boxCollider = player.GetComponentInChildren<BoxCollider>();
         var target = boxCollider.ClosestPoint(origin);
-        var isInLineOfSight = IsPointInLineOfSight(target);
+        var isInLineOfSight = IsPointInLineOfSight(target, attackTriggered);
         if (isInLineOfSight != isCharacterDetected) {
             isCharacterDetected = isInLineOfSight;
-            enemyAnimator.SetTrigger("ShootTrigger");
-            Debug.Log($"Character detected by {this}");
+            if (isCharacterDetected && !attackTriggered) {
+                attackTriggered = true;
+                enemyAnimator.SetTrigger("ShootTrigger");
+            }
         }
     }
 
@@ -125,8 +148,8 @@ public class EnemyController : LineOfSightObject {
         base.OnDrawGizmos();
         Gizmos.color = Color;
         Gizmos.DrawSphere(transform.position + new Vector3(0f, 2f, 0f), 0.1f);
-        var baseX = Application.isPlaying ? patrolBase : transform.position.x;
         if (PatrolDistanceLeft != 0f || PatrolDistanceRight != 0f) {
+            var baseX = Application.isPlaying ? patrolBase : transform.position.x;
             Gizmos.DrawCube(new Vector3(baseX - PatrolDistanceLeft, transform.position.y + 1f, transform.position.z), new Vector3(0.01f, 2f, 1f));
             Gizmos.DrawCube(new Vector3(baseX + PatrolDistanceRight, transform.position.y + 1f, transform.position.z), new Vector3(0.01f, 2f, 1f));
         }

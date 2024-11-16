@@ -135,6 +135,11 @@ public class PlayerController : MonoBehaviour {
             projectorsList.Remove(projector);
         }
     }
+
+    public void Kill() {
+        //TODO: trigger death animation
+        ChangeControlsAvailable(false);
+    }
     
     private void OnTriggerEnter(Collider other) {
         var layer = other.gameObject.layer;
