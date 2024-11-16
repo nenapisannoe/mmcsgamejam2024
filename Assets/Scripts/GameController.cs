@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Game.EffectScripts;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
@@ -63,7 +62,7 @@ public class GameController : MonoBehaviour {
 
     #region UI - Dialogs
 
-    public void ShowProjectorControllerDialog(ProjectorControllerData data) {
+    public void ShowProjectorControllerDialog(LightProjectorControllerData data) {
         ProjectorControllerDialog.Init(data);
         ShowDialog(ProjectorControllerDialog);
         PlayerController.ChangeControlsAvailable(false);

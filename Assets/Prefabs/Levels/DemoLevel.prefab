@@ -845,6 +845,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5004338985343915737}
     m_Modifications:
+    - target: {fileID: 852607749558932388, guid: 798012d2d866cb24daed12c6ab17b01a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1920743831272243586, guid: 798012d2d866cb24daed12c6ab17b01a, type: 3}
       propertyPath: m_Name
       value: Projector
@@ -980,6 +984,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5004338985343915737}
     m_Modifications:
+    - target: {fileID: 852607749558932388, guid: 798012d2d866cb24daed12c6ab17b01a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1920743831272243586, guid: 798012d2d866cb24daed12c6ab17b01a, type: 3}
       propertyPath: m_Name
       value: Projector
@@ -1022,6 +1030,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5171557576803479605, guid: 798012d2d866cb24daed12c6ab17b01a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810543258013917101, guid: 798012d2d866cb24daed12c6ab17b01a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8810543258013917101, guid: 798012d2d866cb24daed12c6ab17b01a, type: 3}
+      propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1372,12 +1388,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: LightProjector
+      value: 
+      objectReference: {fileID: 3487744718583782661}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.PlayerCanModifyRed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.PlayerCanModifyBlue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
       propertyPath: Data.PlayerCanModifyAngle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.PlayerCanModifyGreen
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
       propertyPath: Data.PlayerCanModifyEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6007448707778409954, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
       propertyPath: m_Name
@@ -1445,6 +1477,46 @@ PrefabInstance:
       propertyPath: Projector
       value: 
       objectReference: {fileID: 4398223069847110864}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.IsEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: LightProjector
+      value: 
+      objectReference: {fileID: 4398223069847110864}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.MaxAngleDelta
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.MinAngleDelta
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.CurrentAngleDelta
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.PlayerCanModifyRed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.PlayerCanModifyBlue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.PlayerCanModifyAngle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.PlayerCanModifyGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856665294438144930, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
+      propertyPath: Data.PlayerCanModifyEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6007448707778409954, guid: f852f689675c5294c89c66cd3012e2e1, type: 3}
       propertyPath: m_Name
       value: ProjectorControl
