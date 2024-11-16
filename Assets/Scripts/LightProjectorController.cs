@@ -47,6 +47,11 @@ public class LightProjectorController : MonoBehaviour {
         Data.ProjectorDataChanged += OnProjectorDataChanged;
     }
 
+    private void OnValidate() {
+        Data.CurrentAngleDelta = Math.Min(Math.Max(Data.MinAngleDelta, Data.CurrentAngleDelta), Data.MaxAngleDelta);
+        OnProjectorDataChanged();
+    }
+
     public void OnProjectorDataChanged() {
         if (LightProjector == null) {
             return;

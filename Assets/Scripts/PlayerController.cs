@@ -1,10 +1,11 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour {
+    
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
     public CharacterController m_CharacterController;
     public float m_MoveSpeed;
@@ -18,10 +19,15 @@ public class PlayerController : MonoBehaviour {
     private bool isControlsAvailable;
     
     private LightProjectorController currentLightProjectorController;
+    
+    [SerializeField] private Renderer m_AnyCharacterFrameRenderer;
+    private Material m_CharacterPaintSharedMaterial;
 
-    void Start ()
-    {
+    void Start () {
         transform.forward = new Vector3(1, 0, 0);
+        if (m_AnyCharacterFrameRenderer != null) {
+            m_CharacterPaintSharedMaterial = m_AnyCharacterFrameRenderer.sharedMaterial;
+        }
     }
     
     private void Update() {
@@ -98,6 +104,12 @@ public class PlayerController : MonoBehaviour {
         move = 0f;
         m_CharacterController.enabled = value;
     }
+
+    public void SetColor(Color color) {
+        if (m_CharacterPaintSharedMaterial) {
+            m_CharacterPaintSharedMaterial.SetColor(BaseColor, color);
+        }
+    }
     
     private void OnTriggerEnter(Collider other) {
         var layer = other.gameObject.layer;
@@ -116,6 +128,10 @@ public class PlayerController : MonoBehaviour {
             var projectorControl = other.GetComponent<LightProjectorController>();
             projectorControl.PlayerCanInteract(true);
             currentLightProjectorController = projectorControl;
+        }
+        else if (layer == 13) { //paint
+            var paint = other.GetComponent<Paint>();
+            SetColor(paint.Color);
         }
     }
 
