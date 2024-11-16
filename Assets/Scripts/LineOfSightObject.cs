@@ -50,7 +50,7 @@ public abstract class LineOfSightObject : MonoBehaviour {
     protected abstract float GetAngle();
     protected abstract Color GetColor();
 
-    private void OnDrawGizmos() {
+    protected virtual void OnDrawGizmos() {
         Gizmos.color = GetColor();
         var origin = GetOrigin();
         var direction = GetDirection();
