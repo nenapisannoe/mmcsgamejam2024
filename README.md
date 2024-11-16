@@ -13,6 +13,10 @@
 
 `Твиннер для простого создания простых анимаций кодом, я им обычно пользуюсь, если вам удобнее через аниматор юнити - ничто не мешает`
 
+4. https://assetstore.unity.com/packages/vfx/shaders/retrowave-skies-lite-dynamic-skybox-asset-pack-282063
+
+`RETROWAVE SKIES Lite - Dynamic Skybox Asset Pack`
+
 ## Структура проекта
 
 `//TBA`
