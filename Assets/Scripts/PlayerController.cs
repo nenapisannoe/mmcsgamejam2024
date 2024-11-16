@@ -29,14 +29,16 @@ public class PlayerController : MonoBehaviour {
 
     private List<LightProjector> projectorsList = new List<LightProjector>();
 
+    private MovingObject currentMovingObject;
+
     void Start () {
         transform.forward = new Vector3(1, 0, 0);
         if (m_AnyCharacterFrameRenderer != null) {
             m_CharacterPaintSharedMaterial = m_AnyCharacterFrameRenderer.sharedMaterial;
         }
     }
-    
-    private void Update() {
+
+    private void FixedUpdate() {
         if (!m_CharacterController.enabled) {
             return;
         }
@@ -82,29 +84,34 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void Move()
-    {
-        if (m_CharacterController.isGrounded) 
-        {
+    private void Move() {
+        var isGrounded = m_CharacterController.isGrounded;
+        if (isGrounded) {
             timeToStopLeniency = Time.time + jumpTimeLeniency;
             direction = new Vector3(move, 0f, 0f) * m_MoveSpeed;
-            if (canJump)
+            if (canJump) {
                 direction.y = m_JumpHeight;
-            else
+            }
+            else {
                 animator.SetBool("IsJumping", false);
+            }
         }
-        else
-        {
+        else {
             direction.x = move /** airFriction*/ * m_MoveSpeed;
-            if (canJump && Time.time < timeToStopLeniency)
-                {
-                    direction.y = m_JumpHeight;
-                }
+            if (canJump && Time.time < timeToStopLeniency) {
+                direction.y = m_JumpHeight;
+            }
         }
 
-        var delta = Time.deltaTime;
+        var delta = Time.fixedDeltaTime;
         direction.y -= m_Gravity * delta;
-        m_CharacterController.Move(direction * delta);
+        var motion = direction * delta;
+        
+        if (currentMovingObject != null && isGrounded) {
+            motion.x += currentMovingObject.FixedDeltaX;
+        }
+        
+        m_CharacterController.Move(motion);
 
         canJump = false;
     }
@@ -175,5 +182,16 @@ public class PlayerController : MonoBehaviour {
             }
         }
     }
-
+    
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        var layer = hit.collider.gameObject.layer;
+        if (layer == 16) { //moving object
+            var movingObject = hit.collider.gameObject.GetComponent<MovingObject>();
+            currentMovingObject = movingObject;
+        }
+        else {
+            currentMovingObject = null;
+        }
+    }
+    
 }
