@@ -7,8 +7,16 @@ using UnityEngine.Serialization;
 public class EnemyController : LineOfSightObject {
     
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
     
     public CharacterController m_CharacterController;
+    
+    public Renderer ColorRenderer;
+    public Renderer SpecularColorRenderer;
+
+    private Material colorMaterial;
+    private Material specularColorMaterial;
+    
     public float m_MoveSpeed;
     public float m_Gravity;
     public Color Color = Color.white;
@@ -19,8 +27,6 @@ public class EnemyController : LineOfSightObject {
     [SerializeField] private ParticleSystem deathParticle;
     public float PatrolDistanceLeft;
     public float PatrolDistanceRight;
-    
-    private Material rendererMaterial;
     
     private bool isCharacterDetected;
 
@@ -39,10 +45,8 @@ public class EnemyController : LineOfSightObject {
             throw new Exception("Enemy object must be on layer 15");
         }
 
-        var rendererComponent = GetComponent<Renderer>();
-        if (rendererComponent != null) {
-            rendererMaterial = rendererComponent.material;
-        }
+        colorMaterial = ColorRenderer.sharedMaterial;
+        specularColorMaterial = SpecularColorRenderer.sharedMaterial;
         UpdateMaterial();
 
         patrolBase = transform.position.x;
@@ -131,9 +135,9 @@ public class EnemyController : LineOfSightObject {
     }
 
     private void UpdateMaterial() {
-        if (rendererMaterial != null) {
-            rendererMaterial.SetColor(BaseColor, Color);
-        }
+        colorMaterial.SetColor(BaseColor, Color);
+        specularColorMaterial.SetColor(BaseColor, Color);
+        specularColorMaterial.SetColor(EmissionColor, Color * 2f);
     }
     
     protected override Vector3 GetOrigin() {

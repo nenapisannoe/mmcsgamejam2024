@@ -9,6 +9,7 @@ using UnityEngine.Playables;
 public class PlayerController : MonoBehaviour {
     
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
     public CharacterController m_CharacterController;
     public PlayableDirector m_PlayableDirector;
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour {
     public void SetColor(Color color) {
         if (m_CharacterPaintSharedMaterial) {
             m_CharacterPaintSharedMaterial.SetColor(BaseColor, color);
+            //m_CharacterPaintSharedMaterial.SetColor(EmissionColor, color * 0.25f);
         }
     }
 
