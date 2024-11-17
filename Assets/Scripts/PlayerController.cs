@@ -31,9 +31,9 @@ public class PlayerController : MonoBehaviour {
     private LightProjectorController currentLightProjectorController;
 
     private EnemyController currentEnemyToKill;
-  
-    [SerializeField] private Renderer m_AnyCharacterFrameRenderer;
-    private Material m_CharacterPaintSharedMaterial;
+    
+    [SerializeField] private Material m_CharacterPaintSharedMaterial;
+    [SerializeField] private Material m_CharacterBandSharedMaterial;
 
     private Color _shirtColor = Color.black;
 
@@ -50,9 +50,6 @@ public class PlayerController : MonoBehaviour {
 
     void Start () {
         transform.forward = new Vector3(1, 0, 0);
-        if (m_AnyCharacterFrameRenderer != null) {
-            m_CharacterPaintSharedMaterial = m_AnyCharacterFrameRenderer.sharedMaterial;
-        }
     }
 
     private void FixedUpdate() {
@@ -164,11 +161,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void SetColor(Color color) {
-        if (m_CharacterPaintSharedMaterial) {
-            _shirtColor = color;
-            m_CharacterPaintSharedMaterial.SetColor(BaseColor, color);
-            //m_CharacterPaintSharedMaterial.SetColor(EmissionColor, color * 0.25f);
-        }
+        _shirtColor = color;
+        m_CharacterPaintSharedMaterial.SetColor(BaseColor, color);
+    }
+    
+    public void SetBandColor(Color color) {
+        m_CharacterBandSharedMaterial.SetColor(BaseColor, color);
+        m_CharacterBandSharedMaterial.SetColor(EmissionColor, color);
     }
 
     public void ChangeProjector(LightProjector projector, bool value) {
@@ -178,16 +177,31 @@ public class PlayerController : MonoBehaviour {
         else {
             projectorsList.Remove(projector);
         }
+        
+        if (GetMixedColor(out var color)) {
+            SetBandColor(color);
+        }
+        else {
+            SetBandColor(Color.red);
+        }
+    }
+
+    private bool GetMixedColor(out Color color) {
+        color = Color.clear;
+        if (projectorsList.Count == 0) {
+            return false;
+        }
+        var colors = projectorsList.Select(p => p.GetColor()).ToArray();
+        color = Utils.MixedColor(colors);
+        return true;
     }
 
     public bool Visible {
         get {
-            if (projectorsList.Count == 0) return false;
-
-            var colors = projectorsList.Select(p => p.GetColor()).ToArray();
-            var mixedColor = Utils.MixedColor(colors);
-
-            return !Utils.CloseColors(mixedColor, _shirtColor);
+            if (GetMixedColor(out var mixedColor)) {
+                return !Utils.CloseColors(mixedColor, _shirtColor);
+            }
+            return false;
         }
     }
 
@@ -196,6 +210,7 @@ public class PlayerController : MonoBehaviour {
         gameObject.SetActive(false);
         await UniTask.Delay(TimeSpan.FromSeconds(1));
         SetColor(Color.black);
+        SetBandColor(Color.red);
         ChangeControllerEnabled(true);
         ChangeControlsAvailable(false);
         gameObject.SetActive(true);

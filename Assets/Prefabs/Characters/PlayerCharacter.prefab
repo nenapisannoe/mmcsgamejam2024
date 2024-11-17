@@ -5116,7 +5116,8 @@ MonoBehaviour:
   m_JumpHeight: 15
   animator: {fileID: 6724910834830660356}
   jumpTimeLeniency: 0.1
-  m_AnyCharacterFrameRenderer: {fileID: 152916460643036158}
+  m_CharacterPaintSharedMaterial: {fileID: 2100000, guid: 2a2f7eb4e7273084dacd1e26ac9c1eb1, type: 2}
+  m_CharacterBandSharedMaterial: {fileID: 2100000, guid: ded85927a389fa846b9fd93136bea280, type: 2}
   landingEffect: {fileID: 3781295567792846177}
   audioPlayer: {fileID: 3031032558259479148}
 --- !u!114 &4807788060095685719
@@ -5315,10 +5316,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4248463554291374116}
     m_Modifications:
-    - target: {fileID: 5866666021909216657, guid: e2c8b461db2e0ee4daba580371a6ed54, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 423b010b1c835934b970f755cbae28c0, type: 2}
     - target: {fileID: 128269808553069241, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}
       propertyPath: m_Name
       value: Ninja
@@ -5431,6 +5428,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: e2c8b461db2e0ee4daba580371a6ed54, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 423b010b1c835934b970f755cbae28c0, type: 2}
     m_RemovedComponents:
     - {fileID: 272362390555912590, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}
     m_RemovedGameObjects:
@@ -5450,11 +5451,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1220038203640173088}
   m_SourcePrefab: {fileID: 100100000, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}
---- !u!23 &152916460643036158 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6206395557546408383, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}
-  m_PrefabInstance: {fileID: 6070517314337215041}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6195118979692566776 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 128269808553069241, guid: 7dc2ca0f617ccaa44af02592da9cce0a, type: 3}

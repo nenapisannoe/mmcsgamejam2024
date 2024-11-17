@@ -13,7 +13,7 @@ public class LightProjector : LineOfSightObject {
 
     public void SetData(LightProjectorControllerData data) {
         Spotlight.enabled = data.IsEnabled;
-        Spotlight.transform.localRotation = Quaternion.Euler(new Vector3(baseRotation.x, baseRotation.y + data.CurrentAngleDelta, baseRotation.z));
+        Spotlight.transform.localRotation = Quaternion.Euler(new Vector3(baseRotation.x, data.CurrentAngleDelta, baseRotation.z));
         Spotlight.color = data.Color;
     }
 

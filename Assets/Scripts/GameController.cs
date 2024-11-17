@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour {
     public GameObject LevelScene;
     public List<LevelController> Levels = new List<LevelController>();
     private int currentLevelIndex = -1;
+    public int OVERRIDE_LEVEL = 0;
     [NonSerialized] public LevelController CurrentLevel;
     public LineRenderer ShotLine;
     [Header("UI Dialogs")]
@@ -55,7 +56,11 @@ public class GameController : MonoBehaviour {
 
     public void ShowLevel() {
         HideDialog();
-        LoadLevel(0);
+        var level = 0;
+        #if UNITY_EDITOR
+        level = OVERRIDE_LEVEL;
+        #endif
+        LoadLevel(level);
         LevelScene.SetActive(true);
         onLevelShow?.Invoke();
     }
@@ -64,6 +69,16 @@ public class GameController : MonoBehaviour {
         HideDialog();
         if (currentLevelIndex >= 0) {
             LoadLevel(currentLevelIndex);
+        }
+        else {
+            ShowMainMenu();
+        }
+    }
+    
+    public void NextLevel() {
+        HideDialog();
+        if (currentLevelIndex >= 0 && Levels.Count >= currentLevelIndex) {
+            LoadLevel(currentLevelIndex + 1);
         }
         else {
             ShowMainMenu();
@@ -156,7 +171,7 @@ public class GameController : MonoBehaviour {
 
     public async void KillEnemy(EnemyController enemyController) {
         //TODO: player attack anim
-        var paint = Instantiate(PaintPrefab, LevelScene.transform);
+        var paint = Instantiate(PaintPrefab, CurrentLevel.transform);
         paint.transform.position = enemyController.transform.position;
         paint.SetColor(enemyController.Color);
         await enemyController.Death();

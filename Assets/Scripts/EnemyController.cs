@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -43,9 +44,27 @@ public class EnemyController : LineOfSightObject {
         if (gameObject.layer != 15) {
             throw new Exception("Enemy object must be on layer 15");
         }
-
-        colorMaterial = ColorRenderer.sharedMaterial;
-        specularColorMaterial = SpecularColorRenderer.sharedMaterial;
+        
+        var allRenderers = GetComponentsInChildren<Renderer>();
+        var colorRenderers = new List<Renderer>();
+        var specularColorRenderers = new List<Renderer>();
+        foreach (var renderer in allRenderers) {
+            if (renderer.sharedMaterial == ColorRenderer.sharedMaterial) {
+                colorRenderers.Add(renderer);
+            }
+            else if (renderer.sharedMaterial == SpecularColorRenderer.sharedMaterial) {
+                specularColorRenderers.Add(renderer);
+            }
+        }
+        colorMaterial = ColorRenderer.material;
+        foreach (var renderer in colorRenderers) {
+            renderer.sharedMaterial = colorMaterial;
+        }
+        specularColorMaterial = SpecularColorRenderer.material;
+        foreach (var renderer in specularColorRenderers) {
+            renderer.sharedMaterial = specularColorMaterial;
+        }
+        
         UpdateMaterial();
 
         patrolBase = transform.position.x;

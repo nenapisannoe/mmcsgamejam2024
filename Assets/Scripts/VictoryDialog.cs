@@ -3,7 +3,7 @@ using UnityEngine;
 public class VictoryDialog : MonoBehaviour {
     
     public void OnNextButtonClicked() {
-        GameController.Instance.RestartLevel();
+        GameController.Instance.NextLevel();
     }
     
     public void OnExitButtonClicked() {

@@ -203,9 +203,10 @@ MonoBehaviour:
   PaintPrefab: {fileID: 799159612234002429, guid: 41c0569a377f9ba48bd803e59413e8e5, type: 3}
   LevelScene: {fileID: 391968707}
   Levels:
-  - {fileID: 8055082107468739854, guid: 6383fab42406d3544b198f3167036ce1, type: 3}
-  - {fileID: 3598384632521698865, guid: 6efcc6dd18b6db34c8765af6ca87331a, type: 3}
+  - {fileID: 8055082107468739854, guid: 875d546a619028847a5f0f30ff05a143, type: 3}
+  - {fileID: 8055082107468739854, guid: 69ada9be3623f20418778ceb0a7c1667, type: 3}
   - {fileID: 8055082107468739854, guid: a251b94ae94851f42b99eb1245e07f34, type: 3}
+  OVERRIDE_LEVEL: 0
   ShotLine: {fileID: 1057281171}
   StartDialog: {fileID: 6825705477103221593}
   VictoryDialog: {fileID: 7071095918217093713}
