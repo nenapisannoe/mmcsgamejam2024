@@ -1,34 +1,16 @@
-using System;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
-
-    public Camera m_Camera;
-    private Transform cameraTarget;
-
-    private Vector3 basePosition;
-    private Quaternion baseRotation;
     
-    private void Awake() {
-        basePosition = m_Camera.transform.position;
-        baseRotation = m_Camera.transform.rotation;
-    }
+    public CinemachineConfiner3D CameraConfiner;
 
-    public void AssignTarget(Transform target) {
-        cameraTarget = target;
+    public void Assign(BoxCollider cameraConfiner) {
+        CameraConfiner.BoundingVolume = cameraConfiner;
     }
 
     public void Reset() {
-        cameraTarget = null;
-        m_Camera.transform.position = basePosition;
-        m_Camera.transform.rotation = baseRotation;
-    }
-
-    private void LateUpdate() {
-        if (cameraTarget == null) {
-            return;
-        }
-        m_Camera.transform.position = new Vector3(cameraTarget.position.x, m_Camera.transform.position.y, m_Camera.transform.position.z);
+        CameraConfiner.BoundingVolume = null;
     }
     
 }

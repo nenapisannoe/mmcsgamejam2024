@@ -131,7 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d0a35cc34eb4b9ba51abbc2bf4a5de3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerSpawnPoint: {fileID: 8117003600016880138}
+  m_StartElevator: {fileID: 0}
+  m_CameraConfiner: {fileID: 0}
 --- !u!1001 &125864383676921200
 PrefabInstance:
   m_ObjectHideFlags: 0

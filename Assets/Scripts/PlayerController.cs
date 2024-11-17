@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 public class PlayerController : MonoBehaviour {
     
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
     public CharacterController m_CharacterController;
+    public PlayableDirector m_PlayableDirector;
     public float m_MoveSpeed;
     public float m_Gravity;
     public float m_JumpHeight;
@@ -141,6 +144,16 @@ public class PlayerController : MonoBehaviour {
         else {
             projectorsList.Remove(projector);
         }
+    }
+
+    public async void PlayStart() {
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        SetColor(Color.black);
+        ChangeControllerEnabled(true);
+        ChangeControlsAvailable(false);
+        m_PlayableDirector.Play();
+        await UniTask.Delay(TimeSpan.FromSeconds(2));
+        ChangeControlsAvailable(true);
     }
 
     public void Kill() {
