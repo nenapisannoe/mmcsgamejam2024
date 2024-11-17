@@ -119,6 +119,20 @@ public class PlayerController : MonoBehaviour {
         canJump = false;
     }
 
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Attack();
+        }
+    }
+
+    private void Attack()
+    {
+        animator.SetTrigger("Attack");
+        //TODO атака
+    }
+
     public void ChangeControlsAvailable(bool value) {
         canJump = false;
         move = 0f;
