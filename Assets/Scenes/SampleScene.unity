@@ -129,7 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 251117052}
   - component: {fileID: 251117051}
-  - component: {fileID: 251117054}
   - component: {fileID: 251117053}
   m_Layer: 0
   m_Name: GameController
@@ -190,26 +189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateInterval: 0.5
---- !u!114 &251117054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251117050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032bbab124a94132bdc4581c2340474e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainGeometryDepth: 0
-  BackgroundGeometryDepth: 1.5
-  MainDepth: 0
-  ProjectorDepth: 0.9
-  ProjectorControllerDepth: 1.3
-  Decor1Depth: 0
-  Decor2Depth: 0
-  Decor3Depth: 0
 --- !u!1 &391968707
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,7 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5383aa3472d649039ac0d433d7dd5e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Camera: {fileID: 928683369}
+  CameraConfiner: {fileID: 0}
 --- !u!1 &1057281169
 GameObject:
   m_ObjectHideFlags: 0
