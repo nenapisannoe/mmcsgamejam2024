@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour {
 
     private LightProjectorController currentLightProjectorController;
 
+    private EnemyController currentEnemyToKill;
+  
     [SerializeField] private Renderer m_AnyCharacterFrameRenderer;
     private Material m_CharacterPaintSharedMaterial;
 
@@ -36,6 +38,13 @@ public class PlayerController : MonoBehaviour {
     private List<LightProjector> projectorsList = new List<LightProjector>();
 
     private MovingObject currentMovingObject;
+
+    bool isLastFrameGrounded = false;
+
+    public event Action onPlayerHitFloor;
+
+    [SerializeField] ParticleSystem landingEffect;
+     [SerializeField] PlayerAudioPlayer audioPlayer;
 
     void Start () {
         transform.forward = new Vector3(1, 0, 0);
@@ -85,13 +94,17 @@ public class PlayerController : MonoBehaviour {
             return;
         }
 
-        if (currentLightProjectorController != null) {
+        if (currentEnemyToKill != null && !currentEnemyToKill.deathTriggered) {
+            GameController.Instance.KillEnemy(currentEnemyToKill);
+        }
+        else if (currentLightProjectorController != null) {
             GameController.Instance.ShowProjectorControllerDialog(currentLightProjectorController.Data);
         }
     }
 
     private void Move() {
         var isGrounded = m_CharacterController.isGrounded;
+        isLastFrameGrounded = isGrounded;
         if (isGrounded) {
             timeToStopLeniency = Time.time + jumpTimeLeniency;
             direction = new Vector3(move, 0f, 0f) * m_MoveSpeed;
@@ -212,7 +225,15 @@ public class PlayerController : MonoBehaviour {
             var paint = other.GetComponent<Paint>();
             SetColor(paint.Color);
         }
+        else if (layer == 17) { //enemy kill trigger
+            if (currentLightProjectorController != null) {
+                throw new Exception("Multiple enemy controllers is not supported");
+            }
+            var enemyController = other.transform.parent.GetComponent<EnemyController>();
+            currentEnemyToKill = enemyController;
+        }
     }
+
 
     private void OnTriggerExit(Collider other) {
         var layer = other.gameObject.layer;
@@ -221,6 +242,12 @@ public class PlayerController : MonoBehaviour {
             projectorControl.PlayerCanInteract(false);
             if (currentLightProjectorController == projectorControl) {
                 currentLightProjectorController = null;
+            }
+        }
+        else if (layer == 17) { //enemy kill trigger
+            var enemyController = other.transform.parent.GetComponent<EnemyController>();
+            if (currentEnemyToKill == enemyController) {
+                currentEnemyToKill = null;
             }
         }
     }
@@ -234,6 +261,10 @@ public class PlayerController : MonoBehaviour {
         else {
             currentMovingObject = null;
         }
+        if(hit.gameObject.CompareTag("Floor") && !isLastFrameGrounded)
+        {
+            landingEffect.Play();
+            audioPlayer.PlayJumpLand();
+        }
     }
-
 }

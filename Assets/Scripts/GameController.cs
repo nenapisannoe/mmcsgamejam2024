@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour {
     public CameraController CameraController;
     public PlayerController PlayerController;
     [Header("Game Scenes")]
+    public Paint PaintPrefab;
     public GameObject MainMenuScene;
     public GameObject LevelScene;
     public List<LevelController> Levels = new List<LevelController>();
@@ -27,6 +28,8 @@ public class GameController : MonoBehaviour {
 
     public Action onMainMenuShow;
     public Action onLevelShow;
+
+    public event Action onPlayerHitFloor;
 
     //пока что разрешаем только 1 диалог одновременно, при открытии нового диалога старый закрывается
     private MonoBehaviour currentDialog;
@@ -152,6 +155,15 @@ public class GameController : MonoBehaviour {
         ShotLine.gameObject.SetActive(false);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         LevelFailed();
+    }
+
+    public async void KillEnemy(EnemyController enemyController) {
+        //TODO: player attack anim
+        var paint = Instantiate(PaintPrefab, LevelScene.transform);
+        paint.transform.position = enemyController.transform.position;
+        paint.SetColor(enemyController.Color);
+        await enemyController.Death();
+        Destroy(enemyController.gameObject);
     }
 
     #endregion

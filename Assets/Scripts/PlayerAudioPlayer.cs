@@ -9,6 +9,7 @@ public class PlayerAudioPlayer : MonoBehaviour
     [SerializeField] AudioClip jumpStart;
 
     [SerializeField] AudioClip jumpLand;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -29,7 +30,7 @@ public class PlayerAudioPlayer : MonoBehaviour
         audioSource.Play();
     }
 
-    void PlayJumpLand()
+    public void PlayJumpLand()
     {
         audioSource.resource = jumpLand;
 
