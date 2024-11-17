@@ -24,6 +24,9 @@ public class GameController : MonoBehaviour {
     public VictoryDialog VictoryDialog;
     public DefeatDialog DefeatDialog;
     public ProjectorControllerDialog ProjectorControllerDialog;
+
+    public Action onMainMenuShow;
+    public Action onLevelShow;
     
     //пока что разрешаем только 1 диалог одновременно, при открытии нового диалога старый закрывается
     private MonoBehaviour currentDialog;
@@ -45,6 +48,7 @@ public class GameController : MonoBehaviour {
         UnloadLevel();
         MainMenuScene.SetActive(true);
         ShowDialog(StartDialog);
+        onMainMenuShow?.Invoke();
     }
 
     public void ShowLevel() {
@@ -52,6 +56,7 @@ public class GameController : MonoBehaviour {
         HideDialog();
         LoadLevel(0);
         LevelScene.SetActive(true);
+        onLevelShow?.Invoke();
     }
 
     public void RestartLevel() {
