@@ -45,8 +45,8 @@ public class LightProjector : LineOfSightObject {
         return Spotlight.innerSpotAngle / 2f;
     }
 
-    protected override Color GetColor() {
+    public override Color GetColor() {
         return Spotlight.color;
     }
-    
+
 }

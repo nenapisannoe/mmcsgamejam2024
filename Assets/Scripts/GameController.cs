@@ -30,10 +30,10 @@ public class GameController : MonoBehaviour {
     public Action onLevelShow;
 
     public event Action onPlayerHitFloor;
-    
+
     //пока что разрешаем только 1 диалог одновременно, при открытии нового диалога старый закрывается
     private MonoBehaviour currentDialog;
-    
+
     private void Awake() {
         Instance = this;
 
@@ -47,7 +47,8 @@ public class GameController : MonoBehaviour {
     #region Main
 
     public void ShowMainMenu() {
-        LevelScene.SetActive(false);
+        LevelScene.SetActive(true);
+        MainMenuScene.SetActive(false);
         UnloadLevel();
         MainMenuScene.SetActive(true);
         ShowDialog(StartDialog);
@@ -81,7 +82,7 @@ public class GameController : MonoBehaviour {
         ShowDialog(ProjectorControllerDialog);
         PlayerController.ChangeControlsAvailable(false);
     }
-    
+
     public void HideProjectorControllerDialog() {
         HideDialog();
         PlayerController.ChangeControlsAvailable(true);
@@ -166,5 +167,5 @@ public class GameController : MonoBehaviour {
     }
 
     #endregion
-    
+
 }
