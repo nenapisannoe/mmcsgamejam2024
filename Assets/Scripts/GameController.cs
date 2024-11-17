@@ -14,7 +14,6 @@ public class GameController : MonoBehaviour {
     public PlayerController PlayerController;
     [Header("Game Scenes")]
     public Paint PaintPrefab;
-    public GameObject MainMenuScene;
     public GameObject LevelScene;
     public List<LevelController> Levels = new List<LevelController>();
     private int currentLevelIndex = -1;
@@ -47,16 +46,14 @@ public class GameController : MonoBehaviour {
     #region Main
 
     public void ShowMainMenu() {
-        LevelScene.SetActive(true);
-        MainMenuScene.SetActive(false);
+        PlayerController.transform.position = new Vector3(0f, 0f, 0f); //camera looks at player
+        LevelScene.SetActive(false);
         UnloadLevel();
-        MainMenuScene.SetActive(true);
         ShowDialog(StartDialog);
         onMainMenuShow?.Invoke();
     }
 
     public void ShowLevel() {
-        MainMenuScene.SetActive(false);
         HideDialog();
         LoadLevel(0);
         LevelScene.SetActive(true);

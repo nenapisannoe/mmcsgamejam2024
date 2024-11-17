@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Unity.Mathematics;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
@@ -191,10 +192,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     public async void PlayStart() {
+        projectorsList.Clear();
+        gameObject.SetActive(false);
         await UniTask.Delay(TimeSpan.FromSeconds(1));
         SetColor(Color.black);
         ChangeControllerEnabled(true);
         ChangeControlsAvailable(false);
+        gameObject.SetActive(true);
         m_PlayableDirector.Play();
         await UniTask.Delay(TimeSpan.FromSeconds(2));
         ChangeControlsAvailable(true);
