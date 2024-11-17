@@ -48,7 +48,7 @@ public abstract class LineOfSightObject : MonoBehaviour {
     protected abstract Vector3 GetDirection();
     protected abstract float GetLength();
     protected abstract float GetAngle();
-    protected abstract Color GetColor();
+    public abstract Color GetColor();
 
     protected virtual void OnDrawGizmos() {
         Gizmos.color = GetColor();
@@ -64,5 +64,5 @@ public abstract class LineOfSightObject : MonoBehaviour {
         angleDirection = rotation * direction;
         Gizmos.DrawLine(origin, origin + angleDirection * length);
     }
-        
+
 }

@@ -3,9 +3,9 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class EnemyController : LineOfSightObject {
-    
+
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
-    
+
     public CharacterController m_CharacterController;
     public float m_MoveSpeed;
     public float m_Gravity;
@@ -16,13 +16,13 @@ public class EnemyController : LineOfSightObject {
     [SerializeField] private EnemyAnimationHandler animationHandler;
     public float PatrolDistanceLeft;
     public float PatrolDistanceRight;
-    
+
     private Material rendererMaterial;
-    
+
     private bool isCharacterDetected;
 
     private float patrolBase;
-    
+
     private Vector3 direction;
     private float move;
     private bool patrolToLeft = true;
@@ -41,7 +41,7 @@ public class EnemyController : LineOfSightObject {
         UpdateMaterial();
 
         patrolBase = transform.position.x;
-        
+
         animationHandler.OnShotTrigger += AnimationHandlerOnShotTrigger;
     }
 
@@ -84,7 +84,7 @@ public class EnemyController : LineOfSightObject {
                 }
             }
         }
-        
+
         Move();
     }
 
@@ -104,13 +104,8 @@ public class EnemyController : LineOfSightObject {
     }
 
     private void LateUpdate() {
-        var origin = GetOrigin();
-        var player = GameController.Instance.PlayerController;
-        var boxCollider = player.GetComponentInChildren<BoxCollider>();
-        var target = boxCollider.ClosestPoint(origin);
-        var isInLineOfSight = IsPointInLineOfSight(target, attackTriggered);
-        if (isInLineOfSight != isCharacterDetected) {
-            isCharacterDetected = isInLineOfSight;
+        if (SeesPlayer() != isCharacterDetected) {
+            isCharacterDetected = !isCharacterDetected;
             if (isCharacterDetected && !attackTriggered) {
                 attackTriggered = true;
                 enemyAnimator.SetTrigger("ShootTrigger");
@@ -118,12 +113,25 @@ public class EnemyController : LineOfSightObject {
         }
     }
 
+    private bool SeesPlayer() {
+        var origin = GetOrigin();
+        var player = GameController.Instance.PlayerController;
+
+        if (!player.Visible) return false;
+
+        var boxCollider = player.GetComponentInChildren<BoxCollider>();
+        var target = boxCollider.ClosestPoint(origin);
+        var isInLineOfSight = IsPointInLineOfSight(target, attackTriggered);
+
+        return isInLineOfSight;
+    }
+
     private void UpdateMaterial() {
         if (rendererMaterial != null) {
             rendererMaterial.SetColor(BaseColor, Color);
         }
     }
-    
+
     protected override Vector3 GetOrigin() {
         return m_SightOrigin.position;
     }
@@ -140,10 +148,10 @@ public class EnemyController : LineOfSightObject {
         return 30f;
     }
 
-    protected override Color GetColor() {
+    public override Color GetColor() {
         return Color;
     }
-    
+
     protected override void OnDrawGizmos() {
         base.OnDrawGizmos();
         Gizmos.color = Color;
@@ -154,5 +162,5 @@ public class EnemyController : LineOfSightObject {
             Gizmos.DrawCube(new Vector3(baseX + PatrolDistanceRight, transform.position.y + 1f, transform.position.z), new Vector3(0.01f, 2f, 1f));
         }
     }
-    
+
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 
 public class PlayerController : MonoBehaviour {
-    
+
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
 
     public CharacterController m_CharacterController;
@@ -24,11 +25,13 @@ public class PlayerController : MonoBehaviour {
     private bool canJump = false;
 
     private bool isControlsAvailable;
-    
+
     private LightProjectorController currentLightProjectorController;
-    
+
     [SerializeField] private Renderer m_AnyCharacterFrameRenderer;
     private Material m_CharacterPaintSharedMaterial;
+
+    private Color _shirtColor = Color.black;
 
     private List<LightProjector> projectorsList = new List<LightProjector>();
 
@@ -53,7 +56,7 @@ public class PlayerController : MonoBehaviour {
         if (!isControlsAvailable) {
             return;
         }
-        move = context.ReadValue<float>();    
+        move = context.ReadValue<float>();
 
         if (context.performed && move !=0) {
             transform.forward = new Vector3(move, 0, 0);
@@ -109,11 +112,11 @@ public class PlayerController : MonoBehaviour {
         var delta = Time.fixedDeltaTime;
         direction.y -= m_Gravity * delta;
         var motion = direction * delta;
-        
+
         if (currentMovingObject != null && isGrounded) {
             motion.x += currentMovingObject.FixedDeltaX;
         }
-        
+
         m_CharacterController.Move(motion);
 
         canJump = false;
@@ -147,6 +150,7 @@ public class PlayerController : MonoBehaviour {
 
     public void SetColor(Color color) {
         if (m_CharacterPaintSharedMaterial) {
+            _shirtColor = color;
             m_CharacterPaintSharedMaterial.SetColor(BaseColor, color);
         }
     }
@@ -157,6 +161,17 @@ public class PlayerController : MonoBehaviour {
         }
         else {
             projectorsList.Remove(projector);
+        }
+    }
+
+    public bool Visible {
+        get {
+            if (projectorsList.Count == 0) return false;
+
+            var colors = projectorsList.Select(p => p.GetColor()).ToArray();
+            var mixedColor = Utils.MixedColor(colors);
+
+            return !Utils.CloseColors(mixedColor, _shirtColor);
         }
     }
 
@@ -174,7 +189,7 @@ public class PlayerController : MonoBehaviour {
         animator.SetTrigger("Death");
         ChangeControlsAvailable(false);
     }
-    
+
     private void OnTriggerEnter(Collider other) {
         var layer = other.gameObject.layer;
         if (layer == 10) { //killbox
@@ -209,7 +224,7 @@ public class PlayerController : MonoBehaviour {
             }
         }
     }
-    
+
     private void OnControllerColliderHit(ControllerColliderHit hit) {
         var layer = hit.collider.gameObject.layer;
         if (layer == 16) { //moving object
@@ -220,5 +235,5 @@ public class PlayerController : MonoBehaviour {
             currentMovingObject = null;
         }
     }
-    
+
 }
