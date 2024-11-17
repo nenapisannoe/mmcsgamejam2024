@@ -967,6 +967,11 @@ LineRenderer:
   m_UseWorldSpace: 0
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!198 &1361183488 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3781295567792846177, guid: 219eb03fd07f6e640bb25347b5d12e0b, type: 3}
+  m_PrefabInstance: {fileID: 1625505163250398375}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1541023210
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,6 +1082,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8853755991181657046, guid: 219eb03fd07f6e640bb25347b5d12e0b, type: 3}
   m_PrefabInstance: {fileID: 1625505163250398375}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1823083092 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3031032558259479148, guid: 219eb03fd07f6e640bb25347b5d12e0b, type: 3}
+  m_PrefabInstance: {fileID: 1625505163250398375}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43ff7cf73cd2cdd4b8d16edf34289ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2121478880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,6 +1714,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 391968708}
     m_Modifications:
+    - target: {fileID: 1329277644226002502, guid: 219eb03fd07f6e640bb25347b5d12e0b, type: 3}
+      propertyPath: audioPlayer
+      value: 
+      objectReference: {fileID: 1823083092}
+    - target: {fileID: 1329277644226002502, guid: 219eb03fd07f6e640bb25347b5d12e0b, type: 3}
+      propertyPath: landingEffect
+      value: 
+      objectReference: {fileID: 1361183488}
     - target: {fileID: 4248463554291374116, guid: 219eb03fd07f6e640bb25347b5d12e0b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

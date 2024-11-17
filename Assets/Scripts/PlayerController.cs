@@ -34,6 +34,13 @@ public class PlayerController : MonoBehaviour {
 
     private MovingObject currentMovingObject;
 
+    bool isLastFrameGrounded = false;
+
+    public event Action onPlayerHitFloor;
+
+    [SerializeField] ParticleSystem landingEffect;
+     [SerializeField] PlayerAudioPlayer audioPlayer;
+
     void Start () {
         transform.forward = new Vector3(1, 0, 0);
         if (m_AnyCharacterFrameRenderer != null) {
@@ -89,6 +96,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Move() {
         var isGrounded = m_CharacterController.isGrounded;
+        isLastFrameGrounded = isGrounded;
         if (isGrounded) {
             timeToStopLeniency = Time.time + jumpTimeLeniency;
             direction = new Vector3(move, 0f, 0f) * m_MoveSpeed;
@@ -199,6 +207,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+
     private void OnTriggerExit(Collider other) {
         var layer = other.gameObject.layer;
         if (layer == 12) { //projector control
@@ -219,6 +228,13 @@ public class PlayerController : MonoBehaviour {
         else {
             currentMovingObject = null;
         }
+        if(hit.gameObject.CompareTag("Floor") && !isLastFrameGrounded)
+        {
+            landingEffect.Play();
+            audioPlayer.PlayJumpLand();
+        }
     }
+    
+
     
 }

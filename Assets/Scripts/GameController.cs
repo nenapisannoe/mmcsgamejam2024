@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour {
 
     public Action onMainMenuShow;
     public Action onLevelShow;
+
+    public event Action onPlayerHitFloor;
     
     //пока что разрешаем только 1 диалог одновременно, при открытии нового диалога старый закрывается
     private MonoBehaviour currentDialog;
