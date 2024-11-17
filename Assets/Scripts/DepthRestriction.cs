@@ -6,6 +6,7 @@ public enum BaseGameComponentType {
     MainGeometry,
     BackgroundGeometry,
     Main,
+    SpawnPoint,
     Projector,
     ProjectorController,
     Decor1,
@@ -16,19 +17,34 @@ public enum BaseGameComponentType {
 [ExecuteInEditMode]
 public class DepthRestriction : MonoBehaviour {
 
+    private static DepthConfiguration DepthConfiguration;
+
     public BaseGameComponentType m_Type = BaseGameComponentType.Unrestricted;
     
     #if UNITY_EDITOR
+    private void Awake() {
+        if (DepthConfiguration == null) {
+            DepthConfiguration = Resources.Load<DepthConfiguration>("DepthConfiguration");
+        }
+    }
+    
+    private void OnValidate() {
+        if (DepthConfiguration == null) {
+            DepthConfiguration = Resources.Load<DepthConfiguration>("DepthConfiguration");
+        }
+    }
+
     private float GetDepth() {
         return m_Type switch {
-            BaseGameComponentType.MainGeometry => DepthController.Instance.MainGeometryDepth,
-            BaseGameComponentType.BackgroundGeometry => DepthController.Instance.BackgroundGeometryDepth,
-            BaseGameComponentType.Main => DepthController.Instance.MainDepth,
-            BaseGameComponentType.Projector => DepthController.Instance.ProjectorDepth,
-            BaseGameComponentType.ProjectorController => DepthController.Instance.ProjectorControllerDepth,
-            BaseGameComponentType.Decor1 => DepthController.Instance.Decor1Depth,
-            BaseGameComponentType.Decor2 => DepthController.Instance.Decor2Depth,
-            BaseGameComponentType.Decor3 => DepthController.Instance.Decor3Depth,
+            BaseGameComponentType.MainGeometry => DepthConfiguration.MainGeometryDepth,
+            BaseGameComponentType.BackgroundGeometry => DepthConfiguration.BackgroundGeometryDepth,
+            BaseGameComponentType.Main => DepthConfiguration.MainDepth,
+            BaseGameComponentType.SpawnPoint => -DepthConfiguration.BackgroundGeometryDepth + DepthConfiguration.MainDepth,
+            BaseGameComponentType.Projector => DepthConfiguration.ProjectorDepth,
+            BaseGameComponentType.ProjectorController => DepthConfiguration.ProjectorControllerDepth,
+            BaseGameComponentType.Decor1 => DepthConfiguration.Decor1Depth,
+            BaseGameComponentType.Decor2 => DepthConfiguration.Decor2Depth,
+            BaseGameComponentType.Decor3 => DepthConfiguration.Decor3Depth,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

@@ -102,10 +102,9 @@ public class GameController : MonoBehaviour {
         CurrentLevel = Instantiate(Levels[index], LevelScene.transform);
         CurrentLevel.Init(PlayerController);
         PlayerController.gameObject.SetActive(true);
-        PlayerController.SetColor(Color.black);
-        PlayerController.ChangeControlsAvailable(true);
-        PlayerController.ChangeControllerEnabled(true);
-        CameraController.AssignTarget(PlayerController.transform);
+        CameraController.Assign(CurrentLevel.m_CameraConfiner);
+        CurrentLevel.m_StartElevator.Play();
+        PlayerController.PlayStart();
     }
 
     private void UnloadLevel() {
