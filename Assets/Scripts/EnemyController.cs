@@ -16,6 +16,7 @@ public class EnemyController : LineOfSightObject {
     [SerializeField] private Transform m_AttackOrigin;
     [SerializeField] private Animator enemyAnimator;
     [SerializeField] private EnemyAnimationHandler animationHandler;
+    [SerializeField] private ParticleSystem deathParticle;
     public float PatrolDistanceLeft;
     public float PatrolDistanceRight;
     
@@ -62,6 +63,7 @@ public class EnemyController : LineOfSightObject {
     public async UniTask Death() {
         deathTriggered = true;
         //TODO: enemy death animation & await Task.Delay(TimeSpan.FromSeconds(1f));
+        deathParticle.Play();
         await transform.DOScaleY(0f, 0.5f);
     }
 
