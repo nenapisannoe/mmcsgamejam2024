@@ -306,7 +306,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -402,6 +402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9323c40537bc67a4d856da4f8cecfbc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuMusic: {fileID: 8300000, guid: 66279186e67432a45a438dd30d4e09e8, type: 3}
+  levelMusic: {fileID: 8300000, guid: 16d10dbe25eb29746979bd08f907cf91, type: 3}
 --- !u!4 &376586804
 Transform:
   m_ObjectHideFlags: 0
