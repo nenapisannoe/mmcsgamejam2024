@@ -5,6 +5,9 @@ public class ProjectorControllerDialog : MonoBehaviour {
 
     public GameObject EnabledContainer;
     public Toggle EnabledToggle;
+    [SerializeField] private Sprite ToggleOnSprite;
+    [SerializeField] private Sprite ToggleOffSprite;
+
     [Space]
     public GameObject AngleContainer;
     public Slider AngleSlider;
@@ -19,6 +22,8 @@ public class ProjectorControllerDialog : MonoBehaviour {
     public Slider BlueSlider;
 
     private LightProjectorControllerData projectorData;
+
+    private Image toggleImage;
 
     public void Init(LightProjectorControllerData data) {
         projectorData = data;
@@ -50,9 +55,15 @@ public class ProjectorControllerDialog : MonoBehaviour {
             BlueSlider.SetValueWithoutNotify(projectorData.Color.b);
         }
     }
+
+    void Awake()
+    {
+        toggleImage = EnabledToggle.GetComponentInChildren<Image>();
+    }
     
     public void OnEnabledToggleChanged(bool value) {
         projectorData.IsEnabled = value;
+        toggleImage.sprite = value ? ToggleOnSprite : ToggleOffSprite;
         projectorData.ProjectorDataChangedEvent();
     }
 
