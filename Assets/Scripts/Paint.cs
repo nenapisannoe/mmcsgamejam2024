@@ -22,6 +22,11 @@ public class Paint : MonoBehaviour {
         UpdateMaterial();
     }
 
+    public void SetColor(Color color) {
+        Color = color;
+        UpdateMaterial();
+    }
+
     private void UpdateMaterial() {
         if (rendererMaterial != null) {
             rendererMaterial.SetColor(BaseColor, Color);

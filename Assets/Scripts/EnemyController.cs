@@ -1,6 +1,8 @@
 using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyController : LineOfSightObject {
     
@@ -28,6 +30,8 @@ public class EnemyController : LineOfSightObject {
     private bool patrolToLeft = true;
 
     private bool attackTriggered;
+    [NonSerialized]
+    public bool deathTriggered;
 
     private void Awake() {
         if (gameObject.layer != 15) {
@@ -55,8 +59,14 @@ public class EnemyController : LineOfSightObject {
         }
     }
 
-    private void Update() {
-        if (attackTriggered) {
+    public async UniTask Death() {
+        deathTriggered = true;
+        //TODO: enemy death animation & await Task.Delay(TimeSpan.FromSeconds(1f));
+        await transform.DOScaleY(0f, 0.5f);
+    }
+
+    private void FixedUpdate() {
+        if (attackTriggered || deathTriggered) {
             return;
         }
         if (PatrolDistanceLeft != 0f || PatrolDistanceRight != 0f) {

@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour {
     private bool isControlsAvailable;
     
     private LightProjectorController currentLightProjectorController;
+    private EnemyController currentEnemyToKill;
     
     [SerializeField] private Renderer m_AnyCharacterFrameRenderer;
     private Material m_CharacterPaintSharedMaterial;
@@ -89,7 +90,10 @@ public class PlayerController : MonoBehaviour {
             return;
         }
 
-        if (currentLightProjectorController != null) {
+        if (currentEnemyToKill != null && !currentEnemyToKill.deathTriggered) {
+            GameController.Instance.KillEnemy(currentEnemyToKill);
+        }
+        else if (currentLightProjectorController != null) {
             GameController.Instance.ShowProjectorControllerDialog(currentLightProjectorController.Data);
         }
     }
@@ -205,6 +209,13 @@ public class PlayerController : MonoBehaviour {
             var paint = other.GetComponent<Paint>();
             SetColor(paint.Color);
         }
+        else if (layer == 17) { //enemy kill trigger
+            if (currentLightProjectorController != null) {
+                throw new Exception("Multiple enemy controllers is not supported");
+            }
+            var enemyController = other.transform.parent.GetComponent<EnemyController>();
+            currentEnemyToKill = enemyController;
+        }
     }
 
 
@@ -215,6 +226,12 @@ public class PlayerController : MonoBehaviour {
             projectorControl.PlayerCanInteract(false);
             if (currentLightProjectorController == projectorControl) {
                 currentLightProjectorController = null;
+            }
+        }
+        else if (layer == 17) { //enemy kill trigger
+            var enemyController = other.transform.parent.GetComponent<EnemyController>();
+            if (currentEnemyToKill == enemyController) {
+                currentEnemyToKill = null;
             }
         }
     }
