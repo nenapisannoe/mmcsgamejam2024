@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour {
     public event Action onPlayerHitFloor;
 
     [SerializeField] ParticleSystem landingEffect;
+    [SerializeField] ParticleSystem paintEffect;
      [SerializeField] PlayerAudioPlayer audioPlayer;
 
     void Start () {
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (currentEnemyToKill != null && !currentEnemyToKill.deathTriggered) {
+            animator.SetTrigger("Attack");
             GameController.Instance.KillEnemy(currentEnemyToKill);
         }
         else if (currentLightProjectorController != null) {
@@ -132,20 +134,6 @@ public class PlayerController : MonoBehaviour {
         m_CharacterController.Move(motion);
 
         canJump = false;
-    }
-
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            Attack();
-        }
-    }
-
-    private void Attack()
-    {
-        animator.SetTrigger("Attack");
-        //TODO атака
     }
 
     public void ChangeControlsAvailable(bool value) {
@@ -218,8 +206,7 @@ public class PlayerController : MonoBehaviour {
         await UniTask.Delay(TimeSpan.FromSeconds(2));
         ChangeControlsAvailable(true);
     }
-
-    public void Kill() {
+   public void Kill() {
         animator.SetTrigger("Death");
         ChangeControlsAvailable(false);
     }
@@ -244,6 +231,8 @@ public class PlayerController : MonoBehaviour {
         }
         else if (layer == 13) { //paint
             var paint = other.GetComponent<Paint>();
+            paintEffect.startColor = paint.Color;
+            paintEffect.Play();
             SetColor(paint.Color);
         }
         else if (layer == 17) { //enemy kill trigger
