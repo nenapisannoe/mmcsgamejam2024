@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class LineOfSightObject : MonoBehaviour {
 
-    protected bool IsPointInLineOfSight(Vector3 target, bool ignoreDistance = false) {
+    protected bool IsPointInLineOfSight(Vector3 target, bool ignoreCone = false) {
         var origin = GetOrigin();
-        var isInCone = IsPointInsideCone(target, ignoreDistance);
+        var isInCone = ignoreCone || IsPointInsideCone(target);
         var isInLineOfSight = false;
         if (isInCone) {
             var direction = target - origin;
@@ -29,10 +29,10 @@ public abstract class LineOfSightObject : MonoBehaviour {
     /// 2. Проверьте, находится ли точка внутри угла конуса. Для этого вычислите угол между вектором направления конуса
     /// и вектором от вершины до точки. Если угол больше заданного угла образующей, точка вне конуса.
     /// </summary>
-    private bool IsPointInsideCone(Vector3 point, bool ignoreDistance) {
+    private bool IsPointInsideCone(Vector3 point) {
         var origin = GetOrigin();
         var direction = GetDirection();
-        var length = ignoreDistance ? 100f : GetLength();
+        var length = GetLength();
         var angle = Mathf.Deg2Rad * GetAngle();
         Vector3 apexToPoint = point - origin;
         float projectionLength = Vector3.Dot(apexToPoint, direction);
