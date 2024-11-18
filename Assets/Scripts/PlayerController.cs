@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour {
     public void SetColor(Color color) {
         _shirtColor = color;
         m_CharacterPaintSharedMaterial.SetColor(BaseColor, color);
-        m_CharacterPaintSharedMaterial.SetColor(EmissionColor, color * 0.8f);
+        m_CharacterPaintSharedMaterial.SetColor(EmissionColor, color * 2);
     }
     
     public void SetBandColor(Color color) {
@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour {
 
     private bool GetMixedColor(out Color color) {
         color = Color.clear;
-        if (projectorsList.Count == 0) {
+        if (projectorsList.Where(p => p.GetComponent<LightProjector>().Spotlight.enabled).Count() == 0) {
             return false;
         }
         var colors = projectorsList.Select(p => p.GetColor()).ToArray();
