@@ -150,11 +150,13 @@ public class PlayerController : MonoBehaviour {
 
     public void SetColor(Color color) {
         _shirtColor = color;
+        m_CharacterPaintSharedMaterial.EnableKeyword("_EMISSION");
         m_CharacterPaintSharedMaterial.SetColor(BaseColor, color);
-        m_CharacterPaintSharedMaterial.SetColor(EmissionColor, color * 2);
+        m_CharacterPaintSharedMaterial.SetColor(EmissionColor, color * 0.25f);
     }
     
     public void SetBandColor(Color color) {
+        m_CharacterBandSharedMaterial.EnableKeyword("_EMISSION");
         m_CharacterBandSharedMaterial.SetColor(BaseColor, color);
         m_CharacterBandSharedMaterial.SetColor(EmissionColor, color);
     }

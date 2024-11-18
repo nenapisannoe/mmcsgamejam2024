@@ -31,7 +31,10 @@ public class Paint : MonoBehaviour {
     }
 
     private void UpdateMaterial() {
+        colorMaterial.EnableKeyword("_EMISSION");
+        specularColorMaterial.EnableKeyword("_EMISSION");
         colorMaterial.SetColor(BaseColor, Color);
+        colorMaterial.SetColor(EmissionColor, Color * 0.25f);
         specularColorMaterial.SetColor(BaseColor, Color);
         specularColorMaterial.SetColor(EmissionColor, Color * 2f);
     }

@@ -159,6 +159,7 @@ public class GameController : MonoBehaviour {
             shotOrigin.position,
             PlayerController.GetComponentInChildren<BoxCollider>().transform.position
         });
+        ShotLine.sharedMaterial.EnableKeyword("_EMISSION");
         ShotLine.sharedMaterial.SetColor(BaseColor, color);
         ShotLine.sharedMaterial.SetColor(EmissionColor, color * 15f);
         ShotLine.gameObject.SetActive(true);

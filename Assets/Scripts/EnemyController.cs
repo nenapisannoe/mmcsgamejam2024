@@ -162,6 +162,7 @@ public class EnemyController : LineOfSightObject {
 
     private void UpdateMaterial() {
         colorMaterial.SetColor(BaseColor, Color);
+        specularColorMaterial.EnableKeyword("_EMISSION");
         specularColorMaterial.SetColor(BaseColor, Color);
         specularColorMaterial.SetColor(EmissionColor, Color * 2f);
     }
